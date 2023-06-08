@@ -3,16 +3,16 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const z = require('zod');
 const jwt = require('jsonwebtoken');
-const { queryUsersByEmail, registerUsers } = require('../db/user');
+const { queryUsersByEmail, registerUsers, queryUsers } = require('../db/user');
 
 const userSchema = z.object({
     name: z.string().trim().min(3),
     email: z.string().email(),
     password: z.string().trim().min(6)
-})
+});
 
 
-router.post('/registerUser', async (req, res) => {
+router.post('/user/register', async (req, res) => {
     try {
         const user = userSchema.parse(req.body);
 
@@ -38,7 +38,7 @@ router.post('/registerUser', async (req, res) => {
 });
 
 
-router.post('/login', async (req, res) => {
+router.post('/user/login', async (req, res) => {
     const user = await queryUsersByEmail(req.body.email);
 
     if (!user) return res.status(401).send("email não encontrado");
@@ -49,16 +49,27 @@ router.post('/login', async (req, res) => {
         userId:user.id
     },process.env.SECRET);
     
-    console.log(token);
+    
     /* 
 */
     //console.log("password  = ", isSamePassword);
 
     res.status(200).json({
-        'message': 'It Worked OK!!!',
+        'success': true,
+        'token':token
     });
 
 });
+
+router.get('/query/users',async(req,res)=>{
+    
+    const users = await queryUsers();
+    
+    res.status(200).json({
+        'users': users
+    })
+});
+
 
 module.exports = {
     router

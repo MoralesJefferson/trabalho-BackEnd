@@ -1,21 +1,26 @@
 const prisma = require('./prisma');
 
-const registerUsers = (user) =>{
+const registerUsers = (user) => {
     return prisma.user.create({
-        data:user
+        data: user
     });
 };
 
 const queryUsersByEmail = (email) => {
     return prisma.user.findFirst({
-        where:{
-            email:email
+        where: {
+            email: email
         }
     });
 };
 
+const queryUsers = () => {
+    return prisma.user.findMany();
+};
+
 module.exports = {
     queryUsersByEmail,
-    registerUsers
+    registerUsers,
+    queryUsers
 
 };

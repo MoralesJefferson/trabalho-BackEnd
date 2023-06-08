@@ -1,14 +1,14 @@
 const express = require('express');
 const routerUser = require('./router/user');
-const routerReceita = require('./router/receita');
+const routerRecipe = require('./router/recipe');
 
 const server = new express();
 
 server.use(express.json());
 server.use(routerUser.router);
-server.use(routerReceita.router);
+server.use(routerRecipe.router);
 
-const port = 8081;
+const port = 8082;
 module.exports = {
     server,
     port

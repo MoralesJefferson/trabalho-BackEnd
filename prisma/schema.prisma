@@ -7,18 +7,18 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:../db/receitas.db"
+  url      = "file:../db/recipe.db"
 }
 
 model User{
-  id          Int       @id       @default(autoincrement())
-  name        String 
-  email       String    @unique
-  password    String
-  receita     Receita[]
+  id                  Int       @id       @default(autoincrement())
+  name                String 
+  email               String    @unique
+  password            String
+  recipe    Recipe[]
 }
 
-model Receita{
+model Recipe{
   id                  Int       @id       @default(autoincrement())
   name                String 
   description         String
